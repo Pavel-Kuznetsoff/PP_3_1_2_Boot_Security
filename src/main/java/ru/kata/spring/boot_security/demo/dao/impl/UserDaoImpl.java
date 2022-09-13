@@ -7,6 +7,7 @@ import ru.kata.spring.boot_security.demo.model.User;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class UserDaoImpl implements UserDao {
@@ -27,7 +28,9 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public User getById(int id) {
-        return entityManager.find(User.class, id);
+        Optional<User> userOptional = Optional
+                .ofNullable(entityManager.find(User.class, id));
+        return userOptional.orElse(new User());
     }
 
     @Override
@@ -38,5 +41,13 @@ public class UserDaoImpl implements UserDao {
     @Override
     public void delete(int id) {
         entityManager.remove(getById(id));
+    }
+
+    @Override
+    public User findByUsername(String username) {
+        return entityManager
+                .createQuery("select u from User u where u.username =: username", User.class)
+                .setParameter("username", username)
+                .getSingleResult();
     }
 }

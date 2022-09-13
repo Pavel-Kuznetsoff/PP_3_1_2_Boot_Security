@@ -22,8 +22,7 @@ public class User implements UserDetails {
     private String password;
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "users_roles",
+    @JoinTable(name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
@@ -103,36 +102,56 @@ public class User implements UserDetails {
     // Security
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return getRoles();
     }
 
     @Override
     public String getPassword() {
-        return null;
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     @Override
     public String getUsername() {
-        return null;
+        return username;
     }
 
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
+
+    //    Срок действия учетной записи пользователя не истек
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return true;
     }
 
+    //    Аккаунт пользователя не заблокирован
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return true;
     }
 
+    //    Срок действия пароля пользователя не истек
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return true;
     }
 
+    //    Доступен ли пользователь
     @Override
     public boolean isEnabled() {
-        return false;
+        return true;
     }
 }
