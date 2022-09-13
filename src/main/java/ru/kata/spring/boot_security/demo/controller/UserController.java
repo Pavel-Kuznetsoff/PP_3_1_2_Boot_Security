@@ -1,7 +1,5 @@
 package ru.kata.spring.boot_security.demo.controller;
 
-//import com.company.model.User;
-//import com.company.servise.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,7 +8,7 @@ import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
 @Controller
-@RequestMapping("/users")
+@RequestMapping("admin/users")
 public class UserController {
 
     private UserService service;
