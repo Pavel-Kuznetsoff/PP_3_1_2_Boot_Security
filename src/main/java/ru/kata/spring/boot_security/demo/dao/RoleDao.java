@@ -10,9 +10,9 @@ public interface RoleDao {
 
     List<Role> getAll();
 
-    Role getById(int id);
+    Role getById(Long id);
 
     void update(Role role);
 
-    void delete(int id);
+    void delete(Long id);
 }

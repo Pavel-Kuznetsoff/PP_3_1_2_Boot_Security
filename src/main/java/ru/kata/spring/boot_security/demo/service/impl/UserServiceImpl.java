@@ -18,13 +18,12 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
 
     private UserDao userDao;
-    private RoleDao roleDao;
+    // TODO сделать чтобы кодировались пароли при изменении и создании юзера
     private BCryptPasswordEncoder encoder;
 
     @Autowired
     public UserServiceImpl(UserDao dao, RoleDao roleDao, BCryptPasswordEncoder encoder) {
         this.userDao = dao;
-        this.roleDao = roleDao;
         this.encoder = encoder;
     }
 
@@ -40,7 +39,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getById(int id) {
+    public User getById(Long id) {
         return userDao.getById(id);
     }
 
@@ -52,7 +51,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public void delete(int id) {
+    public void delete(Long id) {
         userDao.delete(id);
     }
 
@@ -63,5 +62,9 @@ public class UserServiceImpl implements UserService {
             throw new UsernameNotFoundException(String.format("User %s not found.", username));
         }
         return user;
+    }
+
+    public User findByUsername(String username) {
+        return userDao.findByUsername(username);
     }
 }

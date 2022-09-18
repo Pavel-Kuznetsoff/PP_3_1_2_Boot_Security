@@ -1,6 +1,7 @@
 package ru.kata.spring.boot_security.demo.dao.impl;
 
 import org.springframework.stereotype.Repository;
+import ru.kata.spring.boot_security.demo.dao.RoleDao;
 import ru.kata.spring.boot_security.demo.dao.UserDao;
 import ru.kata.spring.boot_security.demo.model.User;
 
@@ -15,6 +16,12 @@ public class UserDaoImpl implements UserDao {
     @PersistenceContext
     private EntityManager entityManager;
 
+    private final RoleDao roleDao;
+
+    public UserDaoImpl(RoleDao roleDao) {
+        this.roleDao = roleDao;
+    }
+
     @Override
     public void add(User user) {
         entityManager.persist(user);
@@ -27,7 +34,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public User getById(int id) {
+    public User getById(Long id) {
         Optional<User> userOptional = Optional
                 .ofNullable(entityManager.find(User.class, id));
         return userOptional.orElse(new User());
@@ -39,7 +46,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public void delete(int id) {
+    public void delete(Long id) {
         entityManager.remove(getById(id));
     }
 

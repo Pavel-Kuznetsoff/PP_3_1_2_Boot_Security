@@ -9,9 +9,11 @@ public interface RoleService {
 
     List<Role> getAll();
 
-    Role getById(int id);
+    Role getById(Long id);
 
     void update(Role role);
 
-    void delete(int id);
+    void delete(Long id);
+
+    List<Role> convertIdToRole(List<Long> rolesId);
 }

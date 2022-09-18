@@ -8,6 +8,7 @@ import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.service.RoleService;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
@@ -32,7 +33,7 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public Role getById(int id) {
+    public Role getById(Long id) {
         return dao.getById(id);
     }
 
@@ -44,7 +45,14 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     @Transactional
-    public void delete(int id) {
+    public void delete(Long id) {
         dao.delete(id);
+    }
+
+    @Override
+    public List<Role> convertIdToRole(List<Long> rolesId) {
+        return rolesId.stream()
+                .map(aLong -> getById(aLong))
+                .collect(Collectors.toList());
     }
 }
